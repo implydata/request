@@ -1,21 +1,21 @@
-'use strict'
-var istanbul = require('browserify-istanbul')
+"use strict";
+process.env.CHROME_BIN = require("puppeteer").executablePath();
+
+var istanbul = require("browserify-istanbul");
 
 module.exports = function (config) {
   config.set({
     client: { requestTestUrl: process.argv[4] },
-    basePath: '../..',
-    frameworks: ['tap', 'browserify'],
+    basePath: "../..",
+    frameworks: ["tap", "browserify"],
     preprocessors: {
-      'tests/browser/test.js': ['browserify'],
-      '*.js,!(tests)/**/*.js': ['coverage']
+      "tests/browser/test.js": ["browserify"],
+      "*.js,!(tests)/**/*.js": ["coverage"],
     },
-    files: [
-      'tests/browser/test.js'
-    ],
+    files: ["tests/browser/test.js"],
     port: 9876,
 
-    reporters: ['dots', 'coverage'],
+    reporters: ["dots", "coverage"],
 
     colors: true,
 
@@ -23,35 +23,40 @@ module.exports = function (config) {
 
     autoWatch: false,
 
-    browsers: ['PhantomJS_without_security'],
+    browsers: ["Chrome_without_security"],
 
     singleRun: true,
 
     plugins: [
-      'karma-phantomjs-launcher',
-      'karma-coverage',
-      'karma-browserify',
-      'karma-tap'
+      "karma-chrome-launcher",
+      "karma-coverage",
+      "karma-browserify",
+      "karma-tap",
     ],
     browserify: {
       debug: true,
-      transform: [istanbul({
-        ignore: ['**/node_modules/**', '**/tests/**']
-      })]
+      global: true,
+      transform: [
+        istanbul({
+          ignore: ["**/node_modules/**", "**/tests/**"],
+        }),
+      ],
     },
     coverageReporter: {
-      type: 'lcov',
-      dir: 'coverage/'
+      type: "lcov",
+      dir: "coverage/",
     },
 
     // Custom launcher to allowe self signed certs.
     customLaunchers: {
-      PhantomJS_without_security: {
-        base: 'PhantomJS',
+      Chrome_without_security: {
+        base: "ChromeHeadless",
         flags: [
-          '--ignore-ssl-errors=true'
-        ]
-      }
-    }
-  })
-}
+          "--disable-web-security",
+          "--disable-site-isolation-trials",
+          "--ignore-certificate-errors",
+        ],
+      },
+    },
+  });
+};
