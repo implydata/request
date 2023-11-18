@@ -9,12 +9,13 @@ var tape = require('tape')
 
 function runTest (t, options) {
   var remoteFile = path.join(__dirname, 'googledoodle.jpg')
+  var remoteFileSize = fs.statSync(remoteFile).size
   var localFile = path.join(__dirname, 'unicycle.jpg')
   var multipartFormData = {}
 
   var server = http.createServer(function (req, res) {
     if (req.url === '/file') {
-      res.writeHead(200, {'content-type': 'image/jpg', 'content-length': 7187})
+      res.writeHead(200, {'content-type': 'image/jpg', 'content-length': remoteFileSize})
       res.end(fs.readFileSync(remoteFile), 'binary')
       return
     }
@@ -107,7 +108,7 @@ function runTest (t, options) {
       reqOptions.json = true
     }
     if (options.auth) {
-      reqOptions.auth = {user: 'user', pass: 'pass', sendImmediately: false}
+      reqOptions.auth = {user: 'user', pass: 'pass', sendImmediately: true}
     }
     request.post(reqOptions, function (err, res, body) {
       t.equal(err, null)
