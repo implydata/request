@@ -11,7 +11,7 @@
   "author": "Mikeal Rogers <mikeal.rogers@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/implydata/request.git"
+    "url": "git+https://github.com/implydata/request.git"
   },
   "bugs": {
     "url": "http://github.com/implydata/request/issues"
