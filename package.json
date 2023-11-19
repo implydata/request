@@ -21,12 +21,15 @@
     "node": ">= 6"
   },
   "main": "index.js",
+  "typings": "index.d.ts",
   "files": [
     "lib/",
     "index.js",
     "request.js"
   ],
   "dependencies": {
+    "@types/caseless": "*",
+    "@types/tough-cookie": "*",
     "aws-sign2": "~0.7.0",
     "aws4": "^1.8.0",
     "caseless": "~0.12.0",
